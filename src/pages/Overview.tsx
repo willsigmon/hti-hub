@@ -7,7 +7,7 @@ export default function Overview() {
   return (
     <div className="space-y-6">
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div data-tour="metrics" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="2026 Budget Deficit"
           value="$85,000"
@@ -68,22 +68,17 @@ export default function Overview() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Team Hub - spans 2 columns */}
-        <div className="lg:col-span-2">
+        <div data-tour="team-hub" className="lg:col-span-2">
           <TeamHub />
         </div>
 
         {/* Priority Alerts */}
-        <div>
+        <div data-tour="alerts">
           <PriorityAlerts />
         </div>
       </div>
 
-      {/* Footer Message */}
-      <div className="bg-hti-navy/5 rounded-lg p-4 text-center">
-        <p className="text-sm text-hti-navy">
-          Welcome back to Mission Control! All systems nominal.
-        </p>
-      </div>
+      {/* Footer Message - removed since Hubby now provides contextual messages */}
     </div>
   )
 }

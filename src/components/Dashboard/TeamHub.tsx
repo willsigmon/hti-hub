@@ -22,15 +22,15 @@ export default function TeamHub() {
   const [isChatOpen, setIsChatOpen] = useState(false)
 
   const statusColors = {
-    active: 'bg-green-500',
-    away: 'bg-amber-500',
-    offline: 'bg-gray-400',
+    active: 'bg-status-success',
+    away: 'bg-status-warning',
+    offline: 'bg-muted-foreground',
   }
 
   return (
-    <div className="bg-white rounded-xl border p-6">
-      <h3 className="text-lg font-semibold text-hti-navy mb-4">Team AI Hub</h3>
-      <p className="text-sm text-gray-500 mb-4">Select a team member to start strategizing</p>
+    <div className="glass-panel rounded-xl p-6">
+      <h3 className="text-lg font-semibold text-foreground mb-4">Team AI Hub</h3>
+      <p className="text-sm text-muted-foreground mb-4">Select a team member to start strategizing</p>
 
       <div className="space-y-2 mb-6">
         {teamMembers.map((member) => (
@@ -40,43 +40,43 @@ export default function TeamHub() {
               setSelectedMember(member)
               setIsChatOpen(false)
             }}
-            className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
+            className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
               selectedMember.id === member.id
-                ? 'bg-hti-orange/10 border border-hti-orange'
-                : 'hover:bg-gray-50 border border-transparent'
+                ? 'bg-primary/20 border border-primary/50 shadow-lg'
+                : 'hover:bg-secondary border border-transparent'
             }`}
           >
             <div className="relative">
-              <div className="w-10 h-10 bg-hti-navy rounded-full flex items-center justify-center text-white font-semibold text-sm">
+              <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-foreground font-semibold text-sm border border-border">
                 {member.initials}
               </div>
               <span
-                className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${statusColors[member.status]}`}
+                className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-background ${statusColors[member.status]}`}
               />
             </div>
             <div className="text-left flex-1">
-              <p className="font-medium text-sm text-gray-900">{member.name}</p>
-              <p className="text-xs text-gray-500">{member.role}</p>
+              <p className="font-medium text-sm text-foreground">{member.name}</p>
+              <p className="text-xs text-muted-foreground">{member.role}</p>
             </div>
           </button>
         ))}
       </div>
 
       {/* AI Assistant Section */}
-      <div className="bg-hti-navy-dark rounded-lg p-4">
+      <div className="bg-secondary/50 rounded-lg p-4 border border-border">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-hti-orange rounded-full flex items-center justify-center">
-              <Bot size={16} className="text-white" />
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg border-glow">
+              <Bot size={16} className="text-primary-foreground" />
             </div>
             <div>
-              <p className="text-white text-sm font-medium">{selectedMember.name}</p>
-              <p className="text-gray-400 text-xs">AI Assistant</p>
+              <p className="text-foreground text-sm font-medium">{selectedMember.name}</p>
+              <p className="text-muted-foreground text-xs">AI Assistant</p>
             </div>
           </div>
           <button
             onClick={() => setIsChatOpen(!isChatOpen)}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
           >
             {isChatOpen ? <X size={18} /> : <MessageSquare size={18} />}
           </button>
@@ -86,7 +86,7 @@ export default function TeamHub() {
           <ChatInterface memberName={selectedMember.name} memberRole={selectedMember.role} />
         ) : (
           <>
-            <p className="text-gray-300 text-sm mb-3">
+            <p className="text-muted-foreground text-sm mb-3">
               Hey! I'm {selectedMember.name.split(' ')[0]}'s AI twin. I can help you with{' '}
               {selectedMember.role.toLowerCase().includes('business')
                 ? 'partnership strategies, donor outreach ideas, or our 2026 fundraising goals'
@@ -99,7 +99,7 @@ export default function TeamHub() {
             </p>
             <button
               onClick={() => setIsChatOpen(true)}
-              className="w-full bg-hti-orange hover:bg-hti-orange-dark text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-lg border-glow"
             >
               <MessageSquare size={16} />
               Start Chat

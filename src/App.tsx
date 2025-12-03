@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
+import { HubbyProvider } from '@/contexts/HubbyContext'
+import { OnboardingProvider } from '@/components/Onboarding/OnboardingProvider'
 import Layout from '@/components/Layout/Layout'
 import Overview from '@/pages/Overview'
 import BudgetGap from '@/pages/BudgetGap'
@@ -8,22 +10,26 @@ import ComingSoon from '@/pages/ComingSoon'
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-right" richColors closeButton />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Overview />} />
-          <Route path="budget" element={<BudgetGap />} />
-          <Route path="inventory" element={<ComingSoon />} />
-          <Route path="donors" element={<ComingSoon />} />
-          <Route path="grants" element={<ComingSoon />} />
-          <Route path="leads" element={<ComingSoon />} />
-          <Route path="automations" element={<ComingSoon />} />
-          <Route path="calendar" element={<ComingSoon />} />
-          <Route path="mail" element={<ComingSoon />} />
-          <Route path="crm" element={<ComingSoon />} />
-          <Route path="settings" element={<ComingSoon />} />
-        </Route>
-      </Routes>
+      <HubbyProvider>
+        <OnboardingProvider>
+          <Toaster position="top-right" richColors closeButton />
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Overview />} />
+              <Route path="budget" element={<BudgetGap />} />
+              <Route path="inventory" element={<ComingSoon />} />
+              <Route path="donors" element={<ComingSoon />} />
+              <Route path="grants" element={<ComingSoon />} />
+              <Route path="leads" element={<ComingSoon />} />
+              <Route path="automations" element={<ComingSoon />} />
+              <Route path="calendar" element={<ComingSoon />} />
+              <Route path="mail" element={<ComingSoon />} />
+              <Route path="crm" element={<ComingSoon />} />
+              <Route path="settings" element={<ComingSoon />} />
+            </Route>
+          </Routes>
+        </OnboardingProvider>
+      </HubbyProvider>
     </BrowserRouter>
   )
 }

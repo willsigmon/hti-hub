@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useHubby } from '@/contexts/HubbyContext'
 
 interface Message {
   id: string
@@ -19,6 +20,7 @@ export default function ChatInterface({ memberName, memberRole }: ChatInterfaceP
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const { triggerReaction } = useHubby()
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -53,12 +55,9 @@ export default function ChatInterface({ memberName, memberRole }: ChatInterfaceP
     setMessages((prev) => [...prev, userMessage])
     setInput('')
     setIsLoading(true)
+    triggerReaction('thinking')
 
     try {
-      // Using Manus API via the browse_web proxy or direct fetch
-      // For now, we'll simulate the response since we need backend proxy for CORS
-      // In production, this would call your backend which calls Manus API
-
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,7 +84,8 @@ export default function ChatInterface({ memberName, memberRole }: ChatInterfaceP
       }
 
       setMessages((prev) => [...prev, assistantMessage])
-    } catch (error) {
+      triggerReaction('success')
+    } catch {
       // Fallback: Generate a contextual mock response for demo
       const mockResponses: Record<string, string[]> = {
         business: [
@@ -130,6 +130,7 @@ export default function ChatInterface({ memberName, memberRole }: ChatInterfaceP
 
       setMessages((prev) => [...prev, assistantMessage])
       toast.info('Running in demo mode - connect API for live responses')
+      triggerReaction('success')
     } finally {
       setIsLoading(false)
     }
@@ -145,9 +146,9 @@ export default function ChatInterface({ memberName, memberRole }: ChatInterfaceP
   return (
     <div className="flex flex-col h-80">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto space-y-3 mb-3 pr-1">
+      <div className="flex-1 overflow-y-auto space-y-3 mb-3 pr-1 scrollbar-thin">
         {messages.length === 0 && (
-          <p className="text-gray-400 text-sm text-center py-8">
+          <p className="text-muted-foreground text-sm text-center py-8">
             Start a conversation with {memberName.split(' ')[0]}'s AI assistant
           </p>
         )}
@@ -157,33 +158,33 @@ export default function ChatInterface({ memberName, memberRole }: ChatInterfaceP
             className={`flex gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {message.role === 'assistant' && (
-              <div className="w-6 h-6 bg-hti-orange rounded-full flex items-center justify-center flex-shrink-0">
-                <Bot size={14} className="text-white" />
+              <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                <Bot size={14} className="text-primary-foreground" />
               </div>
             )}
             <div
               className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
                 message.role === 'user'
-                  ? 'bg-hti-navy text-white'
-                  : 'bg-gray-700 text-gray-100'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary text-foreground border border-border'
               }`}
             >
               {message.content}
             </div>
             {message.role === 'user' && (
-              <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                <User size={14} className="text-white" />
+              <div className="w-6 h-6 bg-secondary rounded-full flex items-center justify-center flex-shrink-0 border border-border">
+                <User size={14} className="text-foreground" />
               </div>
             )}
           </div>
         ))}
         {isLoading && (
           <div className="flex gap-2 justify-start">
-            <div className="w-6 h-6 bg-hti-orange rounded-full flex items-center justify-center flex-shrink-0">
-              <Bot size={14} className="text-white" />
+            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+              <Bot size={14} className="text-primary-foreground" />
             </div>
-            <div className="bg-gray-700 rounded-lg px-3 py-2">
-              <Loader2 size={16} className="text-gray-300 animate-spin" />
+            <div className="bg-secondary rounded-lg px-3 py-2 border border-border">
+              <Loader2 size={16} className="text-muted-foreground animate-spin" />
             </div>
           </div>
         )}
@@ -198,13 +199,13 @@ export default function ChatInterface({ memberName, memberRole }: ChatInterfaceP
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={`Ask ${memberName.split(' ')[0]}'s AI...`}
-          className="flex-1 bg-gray-700 text-white text-sm rounded-lg px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-hti-orange"
+          className="flex-1 bg-secondary text-foreground text-sm rounded-lg px-3 py-2 placeholder-muted-foreground border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all"
           disabled={isLoading}
         />
         <button
           onClick={sendMessage}
           disabled={!input.trim() || isLoading}
-          className="bg-hti-orange hover:bg-hti-orange-dark disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2 transition-colors"
+          className="bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-primary-foreground rounded-lg px-3 py-2 transition-all shadow-lg border-glow"
         >
           <Send size={16} />
         </button>

@@ -29,32 +29,33 @@ const navItems = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 bg-hti-navy min-h-screen flex flex-col">
+    <aside data-tour="sidebar" className="w-64 bg-sidebar min-h-screen flex flex-col border-r border-sidebar-border">
       {/* Logo */}
-      <div className="p-6 border-b border-hti-navy-light">
+      <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-hti-orange rounded-lg flex items-center justify-center text-white font-bold text-xl">
+          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-xl shadow-lg border-glow">
             H
           </div>
           <div>
-            <h1 className="text-white font-bold text-lg">H.U.B.</h1>
-            <p className="text-hti-navy-light text-xs">Helping Us Build</p>
+            <h1 className="text-foreground font-bold text-lg">H.U.B.</h1>
+            <p className="text-muted-foreground text-xs">Helping Us Build</p>
           </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 p-4 scrollbar-thin overflow-y-auto">
         <ul className="space-y-1">
           {navItems.map((item) => (
             <li key={item.to}>
               <NavLink
                 to={item.to}
+                end={item.to === '/'}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
+                  `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
                     isActive
-                      ? 'bg-hti-orange text-white'
-                      : 'text-gray-300 hover:bg-hti-navy-light hover:text-white'
+                      ? 'bg-primary text-primary-foreground shadow-lg border-glow'
+                      : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                   }`
                 }
               >
@@ -67,14 +68,14 @@ export default function Sidebar() {
       </nav>
 
       {/* User Section */}
-      <div className="p-4 border-t border-hti-navy-light">
+      <div className="p-4 border-t border-sidebar-border">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-hti-orange rounded-full flex items-center justify-center text-white font-semibold">
+          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-semibold shadow-lg">
             WS
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white text-sm font-medium truncate">Will Sigmon</p>
-            <p className="text-gray-400 text-xs truncate">Director of BD</p>
+            <p className="text-foreground text-sm font-medium truncate">Will Sigmon</p>
+            <p className="text-muted-foreground text-xs truncate">Director of BD</p>
           </div>
         </div>
       </div>

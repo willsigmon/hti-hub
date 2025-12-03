@@ -20,25 +20,32 @@ export default function MetricCard({
   variant = 'default',
 }: MetricCardProps) {
   const variantStyles = {
-    default: 'bg-white',
-    success: 'bg-green-50 border-green-200',
-    warning: 'bg-amber-50 border-amber-200',
-    danger: 'bg-red-50 border-red-200',
+    default: 'glass-panel',
+    success: 'glass-panel border-status-success/30',
+    warning: 'glass-panel border-status-warning/30',
+    danger: 'glass-panel border-status-critical/30',
+  }
+
+  const valueStyles = {
+    default: 'text-foreground',
+    success: 'text-status-success',
+    warning: 'text-status-warning',
+    danger: 'text-status-critical',
   }
 
   const trendStyles = {
-    up: 'text-green-600',
-    down: 'text-red-600',
-    neutral: 'text-gray-500',
+    up: 'text-status-success',
+    down: 'text-status-critical',
+    neutral: 'text-muted-foreground',
   }
 
   return (
-    <div className={`rounded-xl border p-6 ${variantStyles[variant]}`}>
+    <div className={`rounded-xl p-6 hover-card-effect ${variantStyles[variant]}`}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="mt-2 text-3xl font-bold text-hti-navy">{value}</p>
-          {subtitle && <p className="mt-1 text-sm text-gray-500">{subtitle}</p>}
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p className={`mt-2 text-3xl font-bold ${valueStyles[variant]}`}>{value}</p>
+          {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
           {trend && trendValue && (
             <p className={`mt-2 text-sm font-medium ${trendStyles[trend]}`}>
               {trend === 'up' ? '↑' : trend === 'down' ? '↓' : '→'} {trendValue}
@@ -46,8 +53,8 @@ export default function MetricCard({
           )}
         </div>
         {Icon && (
-          <div className="p-3 bg-hti-orange/10 rounded-lg">
-            <Icon className="text-hti-orange" size={24} />
+          <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
+            <Icon className="text-primary" size={24} />
           </div>
         )}
       </div>
