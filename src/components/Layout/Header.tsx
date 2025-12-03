@@ -1,14 +1,21 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Bell, CheckCircle } from 'lucide-react'
 
 export default function Header() {
-  const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
+  const [today, setToday] = useState<string>('')
+
+  useEffect(() => {
+    setToday(
+      new Date().toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    )
+  }, [])
 
   return (
     <header className="h-16 bg-background/50 backdrop-blur-xl border-b border-border flex items-center justify-between px-6">
