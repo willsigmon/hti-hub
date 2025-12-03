@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* HTI Brand Colors */
+@theme {
+  --color-hti-orange: #F67B16;
+  --color-hti-orange-light: #FFA54F;
+  --color-hti-orange-dark: #D35F00;
+  --color-hti-navy: #1e3a5f;
+  --color-hti-navy-light: #2d5a8a;
+  --color-hti-navy-dark: #0f1f33;
+
+  /* Status colors */
+  --color-status-critical: #ef4444;
+  --color-status-warning: #f59e0b;
+  --color-status-info: #3b82f6;
+  --color-status-success: #22c55e;
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
