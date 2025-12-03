@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import Layout from '@/components/Layout/Layout'
 import Overview from '@/pages/Overview'
+import BudgetGap from '@/pages/BudgetGap'
 import ComingSoon from '@/pages/ComingSoon'
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Overview />} />
-          <Route path="budget" element={<ComingSoon />} />
+          <Route path="budget" element={<BudgetGap />} />
           <Route path="inventory" element={<ComingSoon />} />
           <Route path="donors" element={<ComingSoon />} />
           <Route path="grants" element={<ComingSoon />} />
