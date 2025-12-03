@@ -1,10 +1,12 @@
-import { AlertTriangle, AlertCircle, Info } from 'lucide-react'
+import { AlertTriangle, AlertCircle, Info, ChevronRight } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface Alert {
   id: string
   title: string
   description: string
   type: 'critical' | 'warning' | 'info'
+  action?: string
 }
 
 const alerts: Alert[] = [
@@ -13,18 +15,21 @@ const alerts: Alert[] = [
     title: 'Budget Gap Critical',
     description: '$85k deficit projected for Q1 2026. Immediate action required on Equipment Sales.',
     type: 'critical',
+    action: 'View Budget',
   },
   {
     id: '2',
     title: 'Grant Deadline',
     description: 'NC Digital Equity Grant due in 3 days. Narrative draft pending review.',
     type: 'warning',
+    action: 'Open Grant',
   },
   {
     id: '3',
     title: 'New Lead Detected',
     description: 'Cisco Systems CSR program matches HTI profile (92% Fit Score).',
     type: 'info',
+    action: 'View Lead',
   },
 ]
 
@@ -62,6 +67,25 @@ export default function PriorityAlerts() {
           const styles = alertStyles[alert.type]
           const Icon = styles.icon
 
+          const handleAction = () => {
+            if (alert.type === 'critical') {
+              toast.error(alert.title, {
+                description: 'Opening budget scenario modeler...',
+                action: { label: 'Go', onClick: () => window.location.href = '/budget' },
+              })
+            } else if (alert.type === 'warning') {
+              toast.warning(alert.title, {
+                description: 'Opening grants pipeline...',
+                action: { label: 'Go', onClick: () => window.location.href = '/grants' },
+              })
+            } else {
+              toast.info(alert.title, {
+                description: 'Opening lead details...',
+                action: { label: 'Go', onClick: () => window.location.href = '/leads' },
+              })
+            }
+          }
+
           return (
             <div
               key={alert.id}
@@ -76,6 +100,15 @@ export default function PriorityAlerts() {
                   </span>
                 </div>
                 <p className="text-sm text-gray-600 mt-1">{alert.description}</p>
+                {alert.action && (
+                  <button
+                    onClick={handleAction}
+                    className="mt-2 text-xs font-medium text-gray-700 hover:text-gray-900 flex items-center gap-1"
+                  >
+                    {alert.action}
+                    <ChevronRight size={12} />
+                  </button>
+                )}
               </div>
             </div>
           )

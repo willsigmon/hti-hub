@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import Layout from '@/components/Layout/Layout'
 import Overview from '@/pages/Overview'
 import ComingSoon from '@/pages/ComingSoon'
@@ -6,6 +7,7 @@ import ComingSoon from '@/pages/ComingSoon'
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" richColors closeButton />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Overview />} />

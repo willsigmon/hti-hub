@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Bot } from 'lucide-react'
+import { Bot, MessageSquare, X } from 'lucide-react'
+import ChatInterface from './ChatInterface'
 
 interface TeamMember {
   id: string
@@ -18,6 +19,7 @@ const teamMembers: TeamMember[] = [
 
 export default function TeamHub() {
   const [selectedMember, setSelectedMember] = useState<TeamMember>(teamMembers[0])
+  const [isChatOpen, setIsChatOpen] = useState(false)
 
   const statusColors = {
     active: 'bg-green-500',
@@ -34,7 +36,10 @@ export default function TeamHub() {
         {teamMembers.map((member) => (
           <button
             key={member.id}
-            onClick={() => setSelectedMember(member)}
+            onClick={() => {
+              setSelectedMember(member)
+              setIsChatOpen(false)
+            }}
             className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
               selectedMember.id === member.id
                 ? 'bg-hti-orange/10 border border-hti-orange'
@@ -57,28 +62,50 @@ export default function TeamHub() {
         ))}
       </div>
 
-      {/* AI Assistant Preview */}
+      {/* AI Assistant Section */}
       <div className="bg-hti-navy-dark rounded-lg p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-8 h-8 bg-hti-orange rounded-full flex items-center justify-center">
-            <Bot size={16} className="text-white" />
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-hti-orange rounded-full flex items-center justify-center">
+              <Bot size={16} className="text-white" />
+            </div>
+            <div>
+              <p className="text-white text-sm font-medium">{selectedMember.name}</p>
+              <p className="text-gray-400 text-xs">AI Assistant</p>
+            </div>
           </div>
-          <div>
-            <p className="text-white text-sm font-medium">{selectedMember.name}</p>
-            <p className="text-gray-400 text-xs">AI Assistant</p>
-          </div>
+          <button
+            onClick={() => setIsChatOpen(!isChatOpen)}
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            {isChatOpen ? <X size={18} /> : <MessageSquare size={18} />}
+          </button>
         </div>
-        <p className="text-gray-300 text-sm">
-          Hey! I'm {selectedMember.name.split(' ')[0]}'s AI twin. I can help you with{' '}
-          {selectedMember.role.toLowerCase().includes('business')
-            ? 'partnership strategies, donor outreach ideas, or our 2026 fundraising goals'
-            : selectedMember.role.toLowerCase().includes('grant')
-            ? 'grant writing, deadline tracking, and application strategies'
-            : selectedMember.role.toLowerCase().includes('operations')
-            ? 'equipment inventory, logistics, and operational efficiency'
-            : 'program coordination, digital literacy initiatives, and community outreach'}
-          . What's on your mind?
-        </p>
+
+        {isChatOpen ? (
+          <ChatInterface memberName={selectedMember.name} memberRole={selectedMember.role} />
+        ) : (
+          <>
+            <p className="text-gray-300 text-sm mb-3">
+              Hey! I'm {selectedMember.name.split(' ')[0]}'s AI twin. I can help you with{' '}
+              {selectedMember.role.toLowerCase().includes('business')
+                ? 'partnership strategies, donor outreach ideas, or our 2026 fundraising goals'
+                : selectedMember.role.toLowerCase().includes('grant')
+                ? 'grant writing, deadline tracking, and application strategies'
+                : selectedMember.role.toLowerCase().includes('operations')
+                ? 'equipment inventory, logistics, and operational efficiency'
+                : 'program coordination, digital literacy initiatives, and community outreach'}
+              . What's on your mind?
+            </p>
+            <button
+              onClick={() => setIsChatOpen(true)}
+              className="w-full bg-hti-orange hover:bg-hti-orange-dark text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <MessageSquare size={16} />
+              Start Chat
+            </button>
+          </>
+        )}
       </div>
     </div>
   )
