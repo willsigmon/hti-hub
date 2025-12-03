@@ -1,5 +1,7 @@
+'use client'
+
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 
 // Define Hubby's emotional states and poses
 export type HubbyPose =
@@ -24,7 +26,7 @@ export const HubbyProvider = ({ children }: { children: ReactNode }) => {
   const [pose, setPose] = useState<HubbyPose>('stand');
   const [message, setMessage] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const location = useLocation();
+  const pathname = usePathname();
 
   // Context-aware behavior based on route
   useEffect(() => {
@@ -33,13 +35,12 @@ export const HubbyProvider = ({ children }: { children: ReactNode }) => {
     setPose('stand');
 
     // Route-specific logic
-    const path = location.pathname;
-    switch (path) {
+    switch (pathname) {
       case '/':
         setPose('wave');
         setTimeout(() => setMessage("Welcome to Mission Control! All systems nominal."), 1000);
         break;
-      case '/budget':
+      case '/budget-gap':
         setPose('point_right');
         setTimeout(() => setMessage("Adjust the sliders to model different scenarios."), 1000);
         break;
@@ -70,7 +71,7 @@ export const HubbyProvider = ({ children }: { children: ReactNode }) => {
     }, 8000);
 
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [pathname]);
 
   const triggerReaction = (reaction: 'success' | 'error' | 'thinking' | 'idle') => {
     switch (reaction) {

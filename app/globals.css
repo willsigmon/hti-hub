@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* HTI Brand Colors */
+  --color-hti-orange: #FF6B00;
+  --color-hti-orange-light: #FF9E00;
+  --color-hti-orange-dark: #D35F00;
+  --color-hti-navy: #0F172A;
+  --color-hti-navy-light: #1E293B;
+  --color-hti-navy-dark: #020617;
+
+  /* Status colors */
+  --color-status-critical: #FF3333;
+  --color-status-warning: #F59E0B;
+  --color-status-info: #38BDF8;
+  --color-status-success: #22C55E;
+}
+
+:root {
+  /* Modern SaaS Dark Theme - "Deep Space" */
+  --background: #010204;
+  --foreground: #F8FAFC;
+
+  /* Cards: Ultra-modern glassmorphism */
+  --card: rgba(10, 15, 30, 0.4);
+  --card-foreground: #F8FAFC;
+
+  --popover: #050A15;
+  --popover-foreground: #F8FAFC;
+
+  /* Primary: Electric HTI Orange */
+  --primary: #FF6B00;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary: Deep Space Blue */
+  --secondary: #0F172A;
+  --secondary-foreground: #F8FAFC;
+
+  --muted: #0F172A;
+  --muted-foreground: #64748B;
+
+  --accent: #FF6B00;
+  --accent-foreground: #FFFFFF;
+
+  --destructive: #FF3333;
+  --destructive-foreground: #FFFFFF;
+
+  /* Borders: Subtle, relying on shadows and glows */
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: rgba(255, 107, 0, 0.6);
+
+  --radius: 1rem;
+
+  /* Sidebar: Seamless integration */
+  --sidebar: #010204;
+  --sidebar-foreground: #94A3B8;
+  --sidebar-primary: #FF6B00;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #0F172A;
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: rgba(255, 255, 255, 0.03);
+  --sidebar-ring: #FF6B00;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    /* Deep Space background gradient */
+    background-image:
+      radial-gradient(circle at 15% 50%, rgba(255, 107, 0, 0.08) 0%, transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.05) 0%, transparent 25%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+  @media (min-width: 1024px) { .container { padding-left: 2rem; padding-right: 2rem; max-width: 1400px; } }
+
+  /* Ultra-Modern Glass Utilities */
+  .glass-panel {
+    @apply bg-card/40 backdrop-blur-2xl border border-white/5 shadow-2xl;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .glass-input {
+    @apply bg-white/5 border-white/5 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Typography Utilities */
+  .font-heading {
+    font-family: system-ui, sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  /* Neon Glow Utilities */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+  }
+
+  .border-glow {
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.15);
+  }
+}
+
+/* Custom Scrollbar - Hidden but functional */
+.scrollbar-thin {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Mobile Header Fixes */
+@media (max-width: 768px) {
+  .mobile-header-fix {
+    padding-top: env(safe-area-inset-top);
+    z-index: 50;
+  }
+  main {
+    padding-top: 4rem;
+  }
+}
+
+/* Advanced Card Hover Effect */
+.hover-card-effect {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.hover-card-effect:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 40px -10px rgba(255, 107, 0, 0.15);
+  border-color: rgba(255, 107, 0, 0.4);
+  background: rgba(20, 25, 45, 0.6);
+}
+
+/* Gradient Text Utility */
+.text-gradient {
+  background: linear-gradient(to right, #FF6B00, #FF9E00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hubby Glow Effect */
+.hubby-glow {
+  filter: drop-shadow(0 0 20px rgba(246, 123, 22, 0.5));
+}
+.hubby-glow:hover {
+  filter: drop-shadow(0 0 30px rgba(246, 123, 22, 0.7));
+}

@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Bot, MessageSquare, X } from 'lucide-react'
 import ChatInterface from './ChatInterface'

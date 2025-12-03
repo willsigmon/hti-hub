@@ -1,4 +1,7 @@
-import { NavLink } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   DollarSign,
@@ -14,20 +17,22 @@ import {
 } from 'lucide-react'
 
 const navItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Overview' },
-  { to: '/budget', icon: DollarSign, label: 'Budget Gap' },
-  { to: '/inventory', icon: Package, label: 'Inventory' },
-  { to: '/donors', icon: Users, label: 'Donors' },
-  { to: '/grants', icon: FileText, label: 'Grants' },
-  { to: '/leads', icon: Target, label: 'Lead Gen' },
-  { to: '/automations', icon: Zap, label: 'Automations' },
-  { to: '/calendar', icon: Calendar, label: 'Calendar' },
-  { to: '/mail', icon: Mail, label: 'Mail' },
-  { to: '/crm', icon: Database, label: 'CRM' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { href: '/', icon: LayoutDashboard, label: 'Overview' },
+  { href: '/budget-gap', icon: DollarSign, label: 'Budget Gap' },
+  { href: '/inventory', icon: Package, label: 'Inventory' },
+  { href: '/donors', icon: Users, label: 'Donors' },
+  { href: '/grants', icon: FileText, label: 'Grants' },
+  { href: '/leads', icon: Target, label: 'Lead Gen' },
+  { href: '/automations', icon: Zap, label: 'Automations' },
+  { href: '/calendar', icon: Calendar, label: 'Calendar' },
+  { href: '/mail', icon: Mail, label: 'Mail' },
+  { href: '/crm', icon: Database, label: 'CRM' },
+  { href: '/settings', icon: Settings, label: 'Settings' },
 ]
 
 export default function Sidebar() {
+  const pathname = usePathname()
+
   return (
     <aside data-tour="sidebar" className="w-64 bg-sidebar min-h-screen flex flex-col border-r border-sidebar-border">
       {/* Logo */}
@@ -46,24 +51,24 @@ export default function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 p-4 scrollbar-thin overflow-y-auto">
         <ul className="space-y-1">
-          {navItems.map((item) => (
-            <li key={item.to}>
-              <NavLink
-                to={item.to}
-                end={item.to === '/'}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+          {navItems.map((item) => {
+            const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
                     isActive
                       ? 'bg-primary text-primary-foreground shadow-lg border-glow'
                       : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
-                  }`
-                }
-              >
-                <item.icon size={20} />
-                <span className="text-sm font-medium">{item.label}</span>
-              </NavLink>
-            </li>
-          ))}
+                  }`}
+                >
+                  <item.icon size={20} />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </nav>
 

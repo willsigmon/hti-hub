@@ -1,5 +1,8 @@
+'use client'
+
 import { AlertTriangle, AlertCircle, Info, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface Alert {
   id: string
@@ -34,6 +37,8 @@ const alerts: Alert[] = [
 ]
 
 export default function PriorityAlerts() {
+  const router = useRouter()
+
   const alertStyles = {
     critical: {
       bg: 'bg-status-critical/10',
@@ -71,17 +76,17 @@ export default function PriorityAlerts() {
             if (alert.type === 'critical') {
               toast.error(alert.title, {
                 description: 'Opening budget scenario modeler...',
-                action: { label: 'Go', onClick: () => window.location.href = '/budget' },
+                action: { label: 'Go', onClick: () => router.push('/budget-gap') },
               })
             } else if (alert.type === 'warning') {
               toast.warning(alert.title, {
                 description: 'Opening grants pipeline...',
-                action: { label: 'Go', onClick: () => window.location.href = '/grants' },
+                action: { label: 'Go', onClick: () => router.push('/grants') },
               })
             } else {
               toast.info(alert.title, {
                 description: 'Opening lead details...',
-                action: { label: 'Go', onClick: () => window.location.href = '/leads' },
+                action: { label: 'Go', onClick: () => router.push('/leads') },
               })
             }
           }

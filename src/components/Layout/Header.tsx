@@ -1,3 +1,5 @@
+'use client'
+
 import { Bell, CheckCircle } from 'lucide-react'
 
 export default function Header() {

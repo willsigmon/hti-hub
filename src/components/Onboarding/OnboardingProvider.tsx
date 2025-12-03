@@ -1,3 +1,5 @@
+'use client'
+
 import { type ReactNode } from 'react';
 import Joyride, { type Step, type CallBackProps, STATUS } from 'react-joyride';
 import { useOnboarding } from '@/hooks/useOnboarding';
