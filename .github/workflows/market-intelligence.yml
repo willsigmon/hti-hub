@@ -1,0 +1,107 @@
+name: HTI Market Intelligence
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Daily 7am EST
+  workflow_dispatch:
+
+env:
+  FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+
+jobs:
+  grant-tracker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r collectors/requirements.txt
+      - run: python collectors/grant_tracker.py
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grants-report
+          path: reports/*.csv
+          retention-days: 90
+
+  digital-divide-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r collectors/requirements.txt
+      - run: python collectors/reddit_digital_divide.py
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: digital-divide-report
+          path: reports/*.csv
+          retention-days: 90
+
+  partner-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r collectors/requirements.txt
+      - run: python collectors/partner_monitor.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: partner-report
+          path: reports/*.csv
+          retention-days: 90
+
+  competitive-scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r collectors/requirements.txt
+      - run: python collectors/competitive_scraper.py
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: competitive-report
+          path: reports/*.csv
+          retention-days: 90
+
+  email-digest:
+    runs-on: ubuntu-latest
+    needs: [grant-tracker, digital-divide-monitor, partner-monitor, competitive-scraper]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: grants-report
+          path: reports/
+      - uses: actions/download-artifact@v4
+        with:
+          name: digital-divide-report
+          path: reports/
+      - uses: actions/download-artifact@v4
+        with:
+          name: partner-report
+          path: reports/
+      - uses: actions/download-artifact@v4
+        with:
+          name: competitive-report
+          path: reports/
+      - run: python collectors/send_email_digest.py
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_EMAIL: ${{ secrets.DIGEST_EMAIL }}

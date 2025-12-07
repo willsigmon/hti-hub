@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# HTI H.U.B. 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**HubZone Unified Brain** - Strategic dashboard + automated intelligence for HubZone Technology Initiative.
 
-Currently, two official plugins are available:
+> 501(c)(3) converting donated laptops into Chromebooks for underserved NC families.
+> EIN: 83-3153294
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What's Inside
 
-## React Compiler
+### Dashboard (Next.js)
+| Module | Purpose |
+|--------|---------|
+| 📊 **Dashboard** | Mission metrics, active campaigns, quick actions |
+| 💰 **Grants** | Track applications, deadlines, funding pipeline |
+| 👥 **CRM** | Donors, volunteers, partner relationships |
+| 📧 **Mail** | Communications hub |
+| 📅 **Calendar** | Events, deadlines, campaigns |
+| 📦 **Inventory** | Device tracking and distribution |
+| 💵 **Budget Gap** | Funding needs visualization |
+| ⚡ **Automations** | Workflow status and triggers |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Collectors (Python)
+Automated market intelligence running daily at 7am EST:
 
-## Expanding the ESLint configuration
+| Collector | What It Tracks |
+|-----------|---------------|
+| 💰 **Grant Tracker** | Federal grants, foundation opportunities, philanthropy news |
+| 📱 **Digital Divide Monitor** | Reddit stories of technology need across NC |
+| 🤝 **Partner Monitor** | News about your 8 distribution partners |
+| 🏢 **Competitive Scraper** | Corporate device donation programs |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Reports Generated
+- **Grant Opportunities**: High/Medium/Low relevance scoring
+- **NC Digital Divide Stories**: Real stories for grant applications
+- **Partner Updates**: Expansion news, funding, leadership changes
+- **Email Digest**: Beautiful HTML summary sent daily
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, Vercel Cron
+- **Collectors**: Python 3.11, GitHub Actions
+- **Mascot**: Hubby 🤖
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Setup
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Dashboard
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Collectors
+Add GitHub Secrets:
+- `REDDIT_CLIENT_ID`
+- `REDDIT_CLIENT_SECRET`
+- `RESEND_API_KEY`
+- `DIGEST_EMAIL`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Target Foundations
+Grant tracker monitors:
+- Google.org
+- Microsoft Philanthropies
+- T-Mobile Foundation
+- State Farm Foundation
+- Z. Smith Reynolds Foundation
+- Kate B. Reynolds Charitable Trust
+- Golden LEAF Foundation
+- And more...
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+*Old Laptops. New Opportunities.*
+
+**HubZone Technology Initiative**
